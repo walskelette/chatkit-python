@@ -45,7 +45,7 @@ class MyChatKitServer(ChatKitServer[RequestContext]):
 The client sends an `items.feedback` request when someone clicks the thumbs-down button. The server's `process()` method routes that request to your overridden `add_feedback` method, so you can reply to the user from there without changing `process()` itself.
 
 ```python
-from datetime import datetime
+from datetime import datetime, timezone
 
 from chatkit.server import ChatKitServer
 from chatkit.types import AssistantMessageContent, AssistantMessageItem, FeedbackKind
@@ -66,7 +66,7 @@ class MyChatKitServer(ChatKitServer[RequestContext]):
                 AssistantMessageItem(
                     id=self.store.generate_item_id("message", thread, context),
                     thread_id=thread_id,
-                    created_at=datetime.now(),
+                    created_at=datetime.now(timezone.utc),
                     content=[
                         AssistantMessageContent(
                             text="Sorry about that result. I've flagged it for review."
